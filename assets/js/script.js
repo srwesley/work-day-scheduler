@@ -1,6 +1,6 @@
 // Sets up a variable currentDay and sets it as the day, and then applies that to in a specified format to the page in the p attribute with id #currentDay
 var currentDay = dayjs();
-$('#currentDay').text(currentDay.format('dddd, MMMM D YYYY'));
+$('#currentDay').text(currentDay.format('dddd, MMMM D, YYYY'));
 
 // The overall jQuery DOM
 $(document).ready(function () {
