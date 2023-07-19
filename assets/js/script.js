@@ -4,51 +4,49 @@
 var currentDay = dayjs();
 $('#currentDay').text(currentDay.format('dddd, MMMM D YYYY'));
 
-$(function () {
-  
-  var currentHour = parseInt(moment().format('h'));
-  
-  function hourColor() {
+$(document).ready(function () {
+
+  $('.saveBtn').on('click', function () {
+    var value = $(this).siblings('.description').val();
+    var key = $(this).parent().attr('id');
+
+    localStorage.setItem(key, value);
+  });
+
+  function timeTracker () {
+    var currentTime = dayjs().get('hour');
+
     $('.time-block').each(function() {
-      var blockHour = parseInt(this.id);
-      $(this).toggleClass('past', blockHour < currentHour);
-      $(this).toggleClass('present', blockHour === currentHour);
-      $(this).toggleClass('future', blockHour > currentHour);
-    });
-  }
-  
-  function enterText() {
-    $('.saveBtn').on('click', function () {
-      var key = $(this).parent().attr('id');
-      var value = $(this).siblings('.description').val();
-      localStorage.setItem(key, value);
-    });
-  }
-  
-  function refreshColor() {
-    $('.time-block').each(function() {
-      var blockHour = parseInt(this.id);
-      if (blockHour === currentHour) {
-        $(this).removeClass('past future').addClass('present');
-      } else if (blockHour < currentHour) {
-        $(this).removeClass('future present').addClass('past');
+      var blockTime = parseInt($(this).attr('id').split('hour')[1]);
+
+      if (blockTime < currentTime) {
+        $(this).removeClass('future');
+        $(this).removeClass('present');
+        $(this).addClass('past');
+      } else if (blockTime === currentTime) {
+        $(this).removeClass('past');
+        $(this).removeClass('future');
+        $(this).addClass('present');
       } else {
-        $(this).removeClass('past present').addClass('future');
+        $(this).removeClass('present');
+        $(this).removeClass('past');
+        $(this).addClass('future');
       }
     });
   }
 
-  $('.time-block').each(function() {
-    var key = $(this).attr('id');
-    var value = localStorage.getItem(key);
-    $(this).children('.description').val(value);
-  });
+  $('#hour-9 .description').val(localStorage.getItem('hour-9'));
+  $('#hour-10 .description').val(localStorage.getItem('hour-10'));
+  $('#hour-11 .description').val(localStorage.getItem('hour-11'));
+  $('#hour-12 .description').val(localStorage.getItem('hour-12'));
+  $('#hour-13 .description').val(localStorage.getItem('hour-13'));
+  $('#hour-14 .description').val(localStorage.getItem('hour-14'));
+  $('#hour-15 .description').val(localStorage.getItem('hour-15'));
+  $('#hour-16 .description').val(localStorage.getItem('hour-16'));
+  $('#hour-17 .description').val(localStorage.getItem('hour-17'));
 
-  hourColor();
-  enterText();
-  refreshColor();
-
-
+  timeTracker();
+  
   // TODO: Add a listener for click events on the save button. This code should
 
   // use the id in the containing time-block as a key to save the user input in
